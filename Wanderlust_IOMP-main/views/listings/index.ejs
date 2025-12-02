@@ -1,0 +1,267 @@
+<% layout("/layouts/boilerplate") -%>
+  <%= success %>
+
+    <style>
+      /* Base layout for the filters */
+      #filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: start;
+        padding: 0.5rem 1rem;
+      }
+
+      /* Individual filter item */
+      .filter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem 1rem;
+        border: 1px solid transparent;
+        border-radius: 15px;
+        background-color: #fff;
+        color: #444;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        min-width: 90px;
+      }
+
+      /* Icon style */
+      .filter i {
+        font-size: 1.4rem;
+        margin-bottom: 0.3rem;
+        color: #555;
+        transition: color 0.3s ease;
+      }
+
+      /* Label style */
+      .filter p {
+        margin: 0;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      /* Hover effect */
+      .filter:hover {
+        background-color: #ffecec;
+        border-color: #fe424d;
+        color: #fe424d;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(254, 66, 77, 0.2);
+      }
+
+      .filter:hover i {
+        color: #fe424d;
+      }
+
+      /* Active/selected filter effect (optional JS toggle) */
+      .filter.active {
+        background-color: #fe424d;
+        color: #fff;
+        border-color: #fe424d;
+      }
+
+      .filter.active i {
+        color: #fff;
+      }
+
+      .tax-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid transparent;
+        border-radius: 1rem;
+        padding: 0.6rem 1.2rem;
+        background-color: #fff;
+        color: #444;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        height: 3rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Hover effect */
+      .tax-toggle:hover {
+        background-color: #ffecec;
+        border-color: #fe424d;
+        color: #fe424d;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(254, 66, 77, 0.2);
+      }
+
+      /* Label styling */
+      .tax-toggle .form-check-label {
+        font-weight: 500;
+        margin-left: 0.5rem;
+      }
+
+      /* Bootstrap switch customization */
+      .tax-toggle .form-check-input {
+        width: 2.5em;
+        height: 1.4em;
+        cursor: pointer;
+        border: 1px solid #fe424d;
+        background-color: #f8f9fa;
+        transition: all 0.3s ease;
+      }
+
+      /* When toggled ON */
+      .tax-toggle .form-check-input:checked {
+        background-color: #fe424d;
+        border-color: #fe424d;
+      }
+
+      /* Add active click feedback */
+      .tax-toggle:active {
+        transform: scale(0.98);
+      }
+
+
+      .listing-link {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .listing-card {
+        margin-bottom: 1.5rem;
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .listing-card:hover {
+        transform: translateY(-5px);
+      }
+    </style>
+
+    <!-- 🔹 CATEGORY FILTERS -->
+    <!-- Filters row -->
+    <div id="filters" class="d-flex flex-wrap align-items-center mb-2">
+      <div class="filter" data-category="All"><i class="fa-solid fa-globe"></i>
+        <p>All</p>
+      </div>
+      <div class="filter" data-category="Rooms"><i class="fa-solid fa-bed"></i>
+        <p>Rooms</p>
+      </div>
+      <div class="filter" data-category="Iconic cities"><i class="fa-solid fa-mountain-city"></i>
+        <p>Iconic cities</p>
+      </div>
+      <div class="filter" data-category="Amazing Pools"><i class="fa-solid fa-person-swimming"></i>
+        <p>Amazing Pools</p>
+      </div>
+      <div class="filter" data-category="Camping"><i class="fa-solid fa-campground"></i>
+        <p>Camping</p>
+      </div>
+      <div class="filter" data-category="Farms"><i class="fa-solid fa-wheat-awn"></i>
+        <p>Farms</p>
+      </div>
+      <div class="filter" data-category="Snow"><i class="fa-solid fa-snowflake"></i>
+        <p>Snow Flakes</p>
+      </div>
+      <div class="filter" data-category="Play"><i class="fa-solid fa-baseball-bat-ball"></i>
+        <p>Play</p>
+      </div>
+    </div>
+
+    <!-- Sort + After Taxes Row -->
+    <div class="d-flex justify-content-end align-items-center gap-3 mt-2 me-3" id="sort-tax-bar">
+      <div class="filter sort" data-sort="low">
+        <i class="fa-solid fa-arrow-down-short-wide"></i>
+        <p>Price</p>
+      </div>
+      <div class="filter sort" data-sort="high">
+        <i class="fa-solid fa-arrow-up-wide-short"></i>
+        <p>Price</p>
+      </div>
+      <div class="tax-toggle">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+          <label class="form-check-label" for="flexSwitchCheckDefault">After taxes</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔹 LISTINGS -->
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 d-flex mt-3">
+      <% if (alllistings.length===0) { %>
+        <p class="text-center mt-4">No listings found in this category.</p>
+        <% } else { %>
+          <% for (let listing of alllistings) { %>
+            <a href="/listings/<%= listing._id %>" class="listing-link">
+              <div class="card col listing-card">
+                <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
+                <div class="card-body">
+                  <p class="card-text">
+                    <b>
+                      <%= listing.title %>
+                    </b><br>
+
+                    <% let basePrice=listing.price || 0; let gstPrice=(basePrice * 1.18).toFixed(2); %>
+
+                      ₹<%= basePrice.toLocaleString("en-IN") %> / night
+                        <i class="tax-info" style="display: none;">
+                          &nbsp; +18% = ₹<%= Number(gstPrice).toLocaleString("en-IN") %>
+                        </i>
+                  </p>
+
+                  <% if (listing.category) { %>
+                    <span class="badge bg-secondary">
+                      <%= listing.category %>
+                    </span>
+                    <% } %>
+                </div>
+              </div>
+            </a>
+            <% } %>
+              <% } %>
+    </div>
+
+    <!-- 🔹 SCRIPT -->
+    <script>
+      const filters = document.querySelectorAll(".filter");
+      const currentParams = new URLSearchParams(window.location.search);
+      const currentCategory = "<%= category || 'All' %>";
+      const currentSort = "<%= typeof sort !== 'undefined' ? sort : '' %>";
+
+      // Category & Sort handling
+      filters.forEach((filter) => {
+        filter.addEventListener("click", () => {
+          const category = filter.getAttribute("data-category");
+          const sort = filter.getAttribute("data-sort");
+
+          // Keep existing query params
+          const params = new URLSearchParams(window.location.search);
+
+          // Category filtering
+          if (category) {
+            if (category === "All") params.delete("category");
+            else params.set("category", category);
+          }
+
+          // Sorting
+          if (sort) {
+            params.set("sort", sort);
+          }
+
+          // Redirect with combined params
+          window.location.href = `/listings?${params.toString()}`;
+        });
+      });
+
+      // Highlight active category or sort
+      document.querySelectorAll(".filter").forEach(f => {
+        if (f.getAttribute("data-category") === currentCategory ||
+          f.getAttribute("data-sort") === currentSort) {
+          f.classList.add("active");
+        }
+      });
+
+      // Tax toggle (if exists)
+      const taxswitch = document.getElementById("flexSwitchCheckDefault");
+      if (taxswitch) {
+        taxswitch.addEventListener("click", () => {
+          document.querySelectorAll(".tax-info").forEach(info => {
+            info.style.display = (info.style.display !== "inline") ? "inline" : "none";
+          });
+        });
+      }
+    </script>

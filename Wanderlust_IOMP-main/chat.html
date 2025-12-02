@@ -1,0 +1,23 @@
+<form id="chatForm">
+  <input id="userMessage" placeholder="Ask something..." />
+  <button type="submit">Send</button>
+</form>
+<div id="chatResponse"></div>
+
+<script>
+document.getElementById('chatForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const message = document.getElementById('userMessage').value;
+
+  const res = await fetch('https://nallapurishith.app.n8n.cloud/webhook/chatbot', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ body: { message: text } })
+
+  });
+
+
+  const reply = await res.text();
+  document.getElementById('chatResponse').innerText = reply;
+});
+</script>

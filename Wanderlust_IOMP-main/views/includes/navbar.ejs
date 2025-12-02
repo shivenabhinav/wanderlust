@@ -1,0 +1,67 @@
+<style>
+  .navbar-brand#brand-title {
+    font-size: 1.6rem;
+    color: #fe424d;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .navbar-brand#brand-title i {
+    font-size: 1.7rem;
+    color: #fe424d;
+  }
+
+  .navbar-brand#brand-title:hover {
+    color: #d93b46;
+  }
+
+  .navbar-nav .nav-link {
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 0.45rem 1rem;
+    margin-left: 0.7rem;
+    color: #444 !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Hover effect - same red theme */
+  .navbar-nav .nav-link:hover {
+    background-color: #ffecec;
+    border-color: #fe424d;
+    color: #fe424d !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(254, 66, 77, 0.2);
+  }
+
+  /* Active / focus effect */
+  .navbar-nav .nav-link:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 5px rgba(254, 66, 77, 0.2);
+  }
+</style>
+<nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
+  <div class="container-fluid d-flex align-items-center justify-content-between">
+
+    <!-- Left side: Wanderlust brand -->
+    <div class="navbar-brand d-flex align-items-center">
+      <i class="fa-regular fa-compass me-2 fs-4 text-danger"></i>
+      <a class="nav-link fw-bold fs-4 text-dark" href="/listings">Wanderlust</a>
+    </div>
+
+    <!-- Right side -->
+    <div class="navbar-nav ms-auto d-flex align-items-center">
+      <a class="nav-link" href="/listings/new">Add new Listing</a>
+      <% if (!currUser) { %>
+        <a class="nav-link" href="/signup"><b>Sign Up</b></a>
+        <a class="nav-link" href="/login"><b>Log in</b></a>
+        <% } else { %>
+          <a class="nav-link" href="/logout"><b>Log out</b></a>
+          <% } %>
+    </div>
+
+  </div>
+</nav>
